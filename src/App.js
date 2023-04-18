@@ -1,35 +1,34 @@
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const getLocalStorage = () => {
+  let tasks = localStorage.getItem("tasks");
+  if (tasks) {
+    return (tasks = JSON.parse(localStorage.getItem("tasks")));
+  } else {
+    return [];
+  }
+};
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: "Eat breakfast",
-      day: "14 May 2023 7:30am",
-      reminder: true,
-    },
-    {
-      id: 2,
-      text: "Go to work",
-      day: "14 May 2023 8:30am",
-      reminder: true,
-    },
-    {
-      id: 3,
-      text: "Buy groceries",
-      day: "15 May 2023 4:30pm",
-      reminder: false,
-    },
-  ]);
+  const [tasks, setTasks] = useState(getLocalStorage());
 
   //Delete task
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
+
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem("tasks"));
+    if (storedTasks) setTasks(storedTasks);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   //Toggle reminder
   const toggleReminder = (id) => {
