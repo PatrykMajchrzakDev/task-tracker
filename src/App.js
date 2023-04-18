@@ -3,25 +3,18 @@ import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
 import { useState, useEffect } from "react";
 
-// const getLocalStorage = () => {
-//   let tasks = localStorage.getItem("tasks");
-//   if (tasks) {
-//     return (tasks = JSON.parse(localStorage.getItem("tasks")));
-//   } else {
-//     return [];
-//   }
-// };
+const getLocalStorage = () => {
+  let tasks = localStorage.getItem("tasks");
+  if (tasks) {
+    return (tasks = JSON.parse(localStorage.getItem("tasks")));
+  } else {
+    return [];
+  }
+};
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
-  const [tasks, setTasks] = useState(
-    JSON.parse(localStorage.getItem("tasks")) ?? []
-  );
-
-  // useEffect(() => {
-  //   const storedTasks = JSON.parse(localStorage.getItem("tasks"));
-  //   if (storedTasks) setTasks(storedTasks);
-  // }, []);
+  const [tasks, setTasks] = useState(getLocalStorage());
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
